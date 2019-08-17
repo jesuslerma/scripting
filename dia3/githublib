@@ -1,0 +1,24 @@
+#!/bin/bash
+
+user_profile() {
+	curl -s https://api.github.com/users/$1
+}
+
+user_repositories() {
+	curl -s https://api.github.com/users/$1/repos
+}
+
+user_repository() {
+	curl -s https://api.github.com/repos/$1/$2
+}
+
+user_repo_field() {
+	ev=$(echo ".[].$2")
+	cat $1.repos.json | jq $ev
+}
+
+gb_repository_name() {
+	url=$(echo $1 | tr -d '\"')
+	repo=$(echo ${url##*/})
+	echo $repo
+}
